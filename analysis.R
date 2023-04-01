@@ -23,7 +23,7 @@ setup <- function() {
 setup()
 
 config <- fromJSON(file = "~/Sites/rcps_district4_data/.config.json")
-pwggmap::register_google(config$GOOGLE_API_KEY)
+ggmap::register_google(config$GOOGLE_API_KEY)
 
 ###########################################################################
 #  For using Python's code: https://rstudio.github.io/reticulate/index.html
