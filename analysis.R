@@ -13,7 +13,8 @@ setup <- function() {
     "ggrepel",
     "showtext",
     "rvest",
-    "ggmap"
+    "ggmap",
+    "rjson"
   )
   missing_packages <- required_packages[!(required_packages %in% installed.packages()[,"Package"])]
   if (length(missing_packages)) install.packages(missing_packages)
@@ -21,7 +22,8 @@ setup <- function() {
 }
 setup()
 
-ggmap::register_google("AIzaSyAuZf0_QJUDfWteYYhGudSvJY2nCaeW3sU")
+config <- fromJSON(file = "~/Sites/rcps_district4_data/.config.json")
+pwggmap::register_google(config$GOOGLE_API_KEY)
 
 ###########################################################################
 #  For using Python's code: https://rstudio.github.io/reticulate/index.html
@@ -38,8 +40,8 @@ ggmap::register_google("AIzaSyAuZf0_QJUDfWteYYhGudSvJY2nCaeW3sU")
 options(max.print=25000)
 
 # Load the election data from our Google Sheets
-registered_voters <- gsheet2tbl("https://docs.google.com/spreadsheets/d/1rBd7Mdc0U67zR8L6BxRtKpWutFSwUH3xWACAQCOxdNs#gid=0")
-voted_2022 <- gsheet2tbl("https://docs.google.com/spreadsheets/d/1rBd7Mdc0U67zR8L6BxRtKpWutFSwUH3xWACAQCOxdNs#gid=2119741476")
+registered_voters <- gsheet2tbl(config$REGISTERED_VOTERS)
+voted_2022 <- gsheet2tbl(config$VOTERS_2022)
 
 # Helper functions
 print_voters <- function(voters) {
